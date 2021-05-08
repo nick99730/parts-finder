@@ -1,25 +1,30 @@
-import logo from './logo.svg';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import React, {useEffect, useState} from 'react';
+import {Route, Redirect, BrowserRouter as Router} from 'react-router-dom'
+import Header from "./components/Header";
+import TextFinder from "./components/TextFinder";
+import ImageFinder from "./components/ImageFinder/ImageFinder";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const sellers = ['first seller', 'second seller', 'third seller'];
+    return (
+        <React.Fragment>
+            <Router>
+                <div className="App">
+                    <header className="App-header">
+                        <Header/>
+                    </header>
+                </div>
+
+                <Route exact path="/">
+                    <Redirect to="/text_finder"/>
+                </Route>
+                <Route path='/text_finder' render={() => <TextFinder sellers={sellers}/>}/>
+                <Route path='/image_finder' render={() => <ImageFinder sellers={sellers}/>}/>
+            </Router>
+        </React.Fragment>
+    );
 }
 
 export default App;

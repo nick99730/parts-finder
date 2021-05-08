@@ -1,0 +1,40 @@
+#logo {
+    color: #6c757d;
+    font-family: Helvetica, sans-serif;
+    font-weight: bold;
+    display: inline;
+    float: left;
+    margin-left: 2rem;
+}
+
+a {
+    color: #c6c9cc;
+}
+
+.top_menu {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.list_menu {
+    margin-bottom: 0;
+}
+
+.list_menu li > a:hover {
+    text-decoration: none;
+    color: #ca0303;
+}
+
+.list_menu li:hover {
+    cursor: pointer;
+    color: #ca0303;
+}
+
+.list_menu li > a.active_link {
+    border-bottom: 3px solid #262f71;
+}
+
+.menu_block {
+    position: absolute;
+    bottom: 0;
+    left: 15%;
+}
