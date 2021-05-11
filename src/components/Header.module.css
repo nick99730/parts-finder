@@ -1,5 +1,5 @@
 #logo {
-    color: #6c757d;
+    color: #c6c9cc;
     font-family: Helvetica, sans-serif;
     font-weight: bold;
     display: inline;
@@ -8,7 +8,9 @@
 }
 
 a {
-    color: #c6c9cc;
+    color: #8e8e8e;
+    padding-bottom: .2rem;
+    font-size: .9rem;
 }
 
 .top_menu {
@@ -16,21 +18,22 @@ a {
 }
 
 .list_menu {
-    margin-bottom: 0;
+    margin-bottom: .1rem;
 }
 
 .list_menu li > a:hover {
     text-decoration: none;
-    color: #ca0303;
+    color: #c6c9cc;
 }
 
 .list_menu li:hover {
     cursor: pointer;
-    color: #ca0303;
+    color: #c6c9cc;
 }
 
 .list_menu li > a.active_link {
-    border-bottom: 3px solid #262f71;
+    color: #ced1d6;
+    border-bottom: 2px solid #920d3ceb;
 }
 
 .menu_block {

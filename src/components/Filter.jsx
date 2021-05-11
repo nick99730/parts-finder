@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {Form} from "react-bootstrap";
 import styles from './Filter.module.css'
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
 import List from '@material-ui/core/List';
@@ -15,6 +17,10 @@ import TextField from '@material-ui/core/TextField';
 
 const useStyles = makeStyles((theme) => ({
     root: {
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        maxWidth: 570,
+        width: '100%',
         display: 'flex',
         flexDirection: 'row',
         backgroundColor: theme.palette.background.paper,
@@ -29,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
     stores: {
         width: '100%',
         position: 'absolute',
+        marginTop: ".3rem",
         top: '100%',
         left: '0',
         zIndex: '1000',
@@ -41,11 +48,11 @@ const useStyles = makeStyles((theme) => ({
     },
     in_stock_filter: {
         height: '3rem',
-        maxWidth: '9rem',
+        width: 'auto',
         borderRight: '.1rem solid #949494'
     },
     price_title: {
-        marginRight: '2rem',
+        marginRight: '.5rem',
     },
     input: {
         width: '5rem',
@@ -54,8 +61,10 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function Filter({sellers, value, setValue}) {
-    const [sliderValue, setSliderValue] = useState(value);
+function Filter({sellers, value, setValue, inStock, setInStockValue, setSellers}) {
+    const [sliderValue, setSliderValue] = useState([0, 1000]);
+    const [sliderMin, setSliderMin] = useState(0);
+    const [sliderMax, setSliderMax] = useState(100000);
     const classes = useStyles();
     const [openSellers, setOpenSellers] = useState(false);
     const [openPrices, setOpenPrices] = useState(false);
@@ -66,40 +75,55 @@ function Filter({sellers, value, setValue}) {
         setOpenPrices(!openPrices);
     };
     const rangeSelector = (event, newValue) => {
-        //value = newValue;
         setValue(newValue);
         setSliderValue(newValue)
     };
     const handleMinInputChange = (event) => {
-        //value = [event.target.value, sliderValue[1]];
         setValue([event.target.value, sliderValue[1]]);
         setSliderValue([event.target.value, sliderValue[1]]);
 
     };
     const handleMaxInputChange = (event) => {
-        //value = [sliderValue[0], event.target.value];
         setValue([sliderValue[0], event.target.value]);
         setSliderValue([sliderValue[0], event.target.value]);
     };
+    const handleInStockChange = () => {
+        setInStockValue(!inStock);
+    };
+    const handleSellersChange = (event) => {
+        setSellers({ ...sellers, [event.target.name]: event.target.checked })
+    };
+    useEffect(() => {
+        setSliderValue(value);
+        setSliderMin(value[0]);
+        setSliderMax(value[1]);
+        console.log(value)
+    }, []);
     return (
         <div className={styles.filter_block}>
-            <div className="d-flex align-items-center font-weight-bold">
+            {/*<div className="d-flex align-items-center font-weight-bold">
                 Фильтр:
-            </div>
+            </div>*/}
             <List className={classes.root}>
                 <ListItem className={classes.in_stock_filter}>
-                    <Form.Check inline label="В наличии" type="checkbox" id="inline-checkbox-1"/>
+                    <FormControlLabel className={classes.in_stock_label}
+                        control={<Checkbox color="primary" checked={inStock} onChange={handleInStockChange} name="inStock" />}
+                        label="В наличии"
+                    />
                 </ListItem>
                 <div className={classes.div_nested}>
                     <ListItem button className={classes.list_item_nested} onClick={handleSellersClick}>
-                        <ListItemText primary="Продавцы"/>
+                       Продавцы
                         {openSellers ? <ExpandLess/> : <ExpandMore/>}
                     </ListItem>
                     <Collapse in={openSellers} timeout="auto" unmountOnExit>
                         <List className={classes.stores} component="div" disablePadding>
-                            {sellers.map((seller) => (
+                            {Object.keys(sellers).map((seller) => (
                                 <ListItem className={classes.nested}>
-                                    <Form.Check inline label={seller} type="checkbox" id={`inline-checkbox-${seller}`}/>
+                                    <FormControlLabel
+                                        control={<Checkbox checked={sellers[seller]} onChange={handleSellersChange} name={seller} />}
+                                        label={seller}
+                                    />
                                 </ListItem>
                             ))}
                         </List>
@@ -125,11 +149,12 @@ function Filter({sellers, value, setValue}) {
                         <List className={classes.stores} component="div" disablePadding>
                             <ListItem className={classes.nested}>
                                 <Slider
-                                    min={0}
-                                    max={10000}
+                                    min={sliderMin}
+                                    max={sliderMax}
+                                    step={0.01}
+                                    valueLabelDisplay={"off"}
                                     value={sliderValue}
                                     onChange={rangeSelector}
-                                    valueLabelDisplay="auto"
                                     aria-labelledby="input-slider"
                                 />
                             </ListItem>

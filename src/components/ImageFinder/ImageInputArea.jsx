@@ -10,10 +10,9 @@ const image = <div className={styles.image_icon}>
     <FontAwesomeIcon icon={faImage} size="7x"/>
 </div>;
 
-function InputImageArea({
-                            fetchImageAddress, setMainResults, setResultsObtained,
-                            setMainSellers, setTableSellersKeys, setTableSellersHead
-                        }) {
+function InputImageArea({   fetchImageAddress, setMainResults, setResultsObtained,
+                            setMainSellers, setTableSellersKeys, setTableSellersHead,
+                            setTableCrossesHead, setTableCrossesInfo, setCrossesSellersInfo}) {
     function fetchImage(file) {
         let formData = new FormData();
         formData.append('image', file);
@@ -31,8 +30,10 @@ function InputImageArea({
             setMainSellers(parsed_data.result.map((part) => part.sellers));
             setTableSellersKeys(parsed_data.sellers_keys);
             setTableSellersHead(parsed_data.sellers_head_names);
+            setTableCrossesHead(parsed_data.head_names);
+            setCrossesSellersInfo(parsed_data.result.map((part) => part.crosses.map((cross) => cross.sellers)));
+            setTableCrossesInfo(parsed_data.result.map((part) => part.crosses.map(({sellers, ...keepAttr}) => keepAttr)));
             setResultsObtained(true);
-            console.log(parsed_data.result.map((part) => part.sellers))
         })
             .catch((error) => {
                     console.log(error)

@@ -8,3 +8,13 @@
 .main_title {
     font-size: 1.5rem;
 }
+.no_shadow_btn:focus {
+    outline: none!important;
+    border: 0;
+    box-shadow: none;
+}
+.no_shadow_input:focus {
+    outline: none!important;
+    border-color: #97a1ab;
+    box-shadow: none;
+}
