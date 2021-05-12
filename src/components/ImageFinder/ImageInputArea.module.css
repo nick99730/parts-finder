@@ -35,3 +35,7 @@ p {
     justify-content: center;
     font-weight: bold;
 }
+.input_section{
+    width: 60%;
+    margin-left: 10rem;
+}

@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
         marginLeft: 'auto',
         marginRight: 'auto',
-        maxWidth: 570,
+        maxWidth: 580,
         width: '100%',
         display: 'flex',
         flexDirection: 'row',

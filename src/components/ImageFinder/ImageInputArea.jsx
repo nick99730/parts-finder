@@ -18,10 +18,9 @@ function InputImageArea({   fetchImageAddress, setMainResults, setResultsObtaine
         formData.append('image', file);
         fetch(fetchImageAddress, {
                 method: 'POST',
-                body: JSON.stringify(formData),
+                body: formData,
                 headers: {
                     'Origin': 'Access-Control-Allow-Origin',
-                    'Content-Type': 'application/json'
                 }
             }
         )
@@ -47,21 +46,21 @@ function InputImageArea({   fetchImageAddress, setMainResults, setResultsObtaine
         }
     }, []);
 
-    const {fileRejections, acceptedFiles, getRootProps, getInputProps} = useDropzone({
+    const {fileRejections, getRootProps, getInputProps} = useDropzone({
         onDrop,
-        accept: 'image/jpeg,image/png,image/gif', maxFiles: 1, maxSize: 1000000,
+        accept: 'image/jpeg,image/png,image/gif', maxFiles: 1, maxSize: 10000000,
     });
 
     const validation_error = fileRejections.map(({file, errors}) => (
         <div>
             {errors.map(e => (
                 <div className={styles.image_drag_error}>Вы можете загружать только изображения в формате .jpeg, .gif
-                    или .png!</div>))}
+                    или .png, не более 10MB!</div>))}
         </div>
     ));
 
     return (
-        <section className="container">
+        <section className={`container ${styles.input_section}`}>
             <div {...getRootProps({className: styles.dropzone})}>
                 <input {...getInputProps()}/>
                 <div>
