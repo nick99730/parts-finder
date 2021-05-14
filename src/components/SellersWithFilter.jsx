@@ -13,7 +13,7 @@ function SellersWithFilter({sellers, tableSellersHead, tableSellersKeys}) {
     }, []);
     return(
         <React.Fragment>
-            {sellers.length > 1 ?
+            {sellers.length > 0 ?
                 <Filter sellers={filteredSellersDict} setInStockValue={setInStockValue} inStock={inStock} setSellers={setFilteredSellersDict} value={sliderValue} setValue={setSliderValue}/>
             : null}
             <SellersTable tableHeads={tableSellersHead} bodyKeys={tableSellersKeys} priceRange={sliderValue} filteredSellersNames={Object.keys(filteredSellersDict).filter(name => filteredSellersDict[name])}

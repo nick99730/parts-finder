@@ -1,13 +1,16 @@
 import React, {useEffect, useState} from 'react';
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { makeStyles } from '@material-ui/core/styles';
 import styles from './ImageFinder.module.css'
 import InputImageArea from "./ImageInputArea";
 import {Button, FormControl, InputGroup} from "react-bootstrap";
 import {useValidateImageURL} from "use-validate-image-url";
-import Grid from '@material-ui/core/Grid';
 import ShowResults from "../ShowResults";
 
-function ImageFinder(props) {
+function ImageFinder({server}) {
     const [mainResults, setMainResults] = useState([]);
+    const [dataLoading, setDataLoading] = useState(false);
     const [imageStatus, setImageStatus] = useState('vallid');
     const [mainSellers, setMainSellers] = useState([]);
     const [tableSellersKeys, setTableSellersKeys] = useState([]);
@@ -18,10 +21,16 @@ function ImageFinder(props) {
     const [resultsObtained, setResultsObtained] = useState(false);
     const [imageInputUrl, setImageInputUrl] = useState("");
     const status = useValidateImageURL(imageInputUrl);
-    const server = 'https://c0ad6e969989.ngrok.io';
     const fetchUrlAddress = server + '/detect';
     const fetchImageAddress = server + '/detect';
 
+    const useStyles = makeStyles((theme) => ({
+        backdrop: {
+            zIndex: theme.zIndex.drawer + 1,
+            color: '#fff',
+        },
+    }));
+    const classes = useStyles();
     function fetchUrl(url) {
         fetch(fetchUrlAddress, {
                 method: 'POST',
@@ -43,6 +52,7 @@ function ImageFinder(props) {
                 setCrossesSellersInfo(parsed_data.result.map((part) => part.crosses.map((cross) => cross.sellers)));
                 setTableCrossesInfo(parsed_data.result.map((part) => part.crosses.map(({sellers, ...keepAttr}) => keepAttr)));
                 setResultsObtained(true);
+                setDataLoading(false);
             })
             .catch((error) => {
                     console.log(error);
@@ -55,9 +65,9 @@ function ImageFinder(props) {
         setImageStatus('valid');
     }
 
-    function imageUrlClick(event) {
+    function imageUrlClick() {
         setImageStatus(status);
-        console.log(status);
+        setDataLoading(true);
         if (status === "valid") {
             fetchUrl(imageInputUrl);
         }
@@ -65,9 +75,12 @@ function ImageFinder(props) {
 
     return (
         <div className={styles.finder_block}>
-            <div className={`d-flex justify-content-center my-5 font-weight-bold ${styles.main_title}`}>Сервис быстрого
-                поиска запчастей и комплектующих для автомобилей
+            <div className={`my-5 font-weight-bold ${styles.main_title}`}>
+                Сервис быстрого поиска запчастей и комплектующих для автомобилей
             </div>
+            <Backdrop className={classes.backdrop} open={dataLoading}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
             {!resultsObtained ?
                 <React.Fragment>
                     <div className="my-4 d-flex justify-content-center font-weight-bold">Поиск по изображению</div>
@@ -79,10 +92,11 @@ function ImageFinder(props) {
                                         setTableCrossesHead={setTableCrossesHead}
                                         setCrossesSellersInfo={setCrossesSellersInfo}
                                         setMainSellers={setMainSellers}
+                                        setDataLoading={setDataLoading}
                                         setResultsObtained={setResultsObtained}/>
-                        <ol className={`mt-5 ${styles.image_finder_list} ${styles.text_gray_700} ${styles.text_lg} ${styles.text_left} ${styles.uppercase} ${styles.font_bold}`}>
+                        <ol className={`${styles.image_finder_list} ${styles.text_gray_700} ${styles.text_lg} ${styles.text_left} ${styles.uppercase} ${styles.font_bold}`}>
                             <li className="mb-3"><span className={styles.list_numbers}>1</span>Для поиска загрузите изображение с упаковкой запчасти</li>
-                            <li className="mb-3"><span className={styles.list_numbers}>2</span>В настройках существует возможность фильтрации предложений по наличию, а также по уенам и магазинам</li>
+                            <li className="mb-3"><span className={styles.list_numbers}>2</span>В настройках существует возможность фильтрации предложений по наличию, а также по ценам и магазинам</li>
                             <li className="mb-3"><span className={styles.list_numbers}>3</span>Заказ оформляется на сайте продавца. Информацию о наличии необходимо уточнять по телефону
                                 либо на сайте продавца
                             </li>

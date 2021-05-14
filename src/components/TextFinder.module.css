@@ -1,9 +1,10 @@
-.input_div {
-    min-width: 35rem;
-    padding-top: 2rem;
-    margin-left: auto;
-    margin-right: auto;
-    border-radius: .3rem;
+@media (min-width: 500px) {
+    .input_div {
+        min-width: 35rem;
+        padding-top: 2rem;
+        margin-left: auto;
+        margin-right: auto;
+    }
 }
 .uppercase {
     text-transform: uppercase;
@@ -22,11 +23,21 @@
 .font_bold {
     font-weight: 700;
 }
-.text_finder_list {
-    width: 40rem;
-    list-style-type: none;
-    margin-left: auto;
-    margin-right: auto;
+@media (min-width: 500px) {
+    .text_finder_list {
+        width: 40rem;
+        list-style-type: none;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+@media (max-width: 500px) {
+    .text_finder_list {
+        font-size: 1rem;
+        list-style-type: none;
+        margin-left: 1.5rem;
+        margin-right: 1.5rem;
+    }
 }
 ol li{
     position: relative;
@@ -41,6 +52,11 @@ ol li{
     text-align: center;
     font-size: 40px;
     font-weight: 700;
+}
+@media (max-width: 500px) {
+    .list_numbers {
+        font-size: 35px;
+    }
 }
 .main_title {
     font-size: 1.5rem;

@@ -10,7 +10,7 @@ const image = <div className={styles.image_icon}>
     <FontAwesomeIcon icon={faImage} size="7x"/>
 </div>;
 
-function InputImageArea({   fetchImageAddress, setMainResults, setResultsObtained,
+function InputImageArea({   fetchImageAddress, setMainResults, setResultsObtained, setDataLoading,
                             setMainSellers, setTableSellersKeys, setTableSellersHead,
                             setTableCrossesHead, setTableCrossesInfo, setCrossesSellersInfo}) {
     function fetchImage(file) {
@@ -32,6 +32,7 @@ function InputImageArea({   fetchImageAddress, setMainResults, setResultsObtaine
             setTableCrossesHead(parsed_data.head_names);
             setCrossesSellersInfo(parsed_data.result.map((part) => part.crosses.map((cross) => cross.sellers)));
             setTableCrossesInfo(parsed_data.result.map((part) => part.crosses.map(({sellers, ...keepAttr}) => keepAttr)));
+            setDataLoading(false);
             setResultsObtained(true);
         })
             .catch((error) => {
@@ -42,6 +43,7 @@ function InputImageArea({   fetchImageAddress, setMainResults, setResultsObtaine
 
     const onDrop = useCallback(acceptedFiles => {
         if (acceptedFiles.length !== 0) {
+            setDataLoading(true);
             fetchImage(acceptedFiles[0]);
         }
     }, []);
@@ -64,9 +66,9 @@ function InputImageArea({   fetchImageAddress, setMainResults, setResultsObtaine
             <div {...getRootProps({className: styles.dropzone})}>
                 <input {...getInputProps()}/>
                 <div>
-                    <p>Перетащите изображение сюда, или щелкните чтобы выбрать</p>
+                    <p className="text-center">Перетащите изображение сюда, или щелкните чтобы выбрать</p>
                     {image}
-                    <em>(Поддерживаются только .jpeg, .gif или .png изображения, размером не более 10MB!)</em>
+                    <em className="text-center">(Поддерживаются только .jpeg, .gif или .png изображения, размером не более 10MB!)</em>
                 </div>
             </div>
             <aside>

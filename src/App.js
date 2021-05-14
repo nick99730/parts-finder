@@ -7,7 +7,7 @@ import TextFinder from "./components/TextFinder";
 import ImageFinder from "./components/ImageFinder/ImageFinder";
 
 function App() {
-    const sellers = ['first seller', 'second seller', 'third seller'];
+    const server = "https://409731e86f82.ngrok.io";
     return (
         <React.Fragment>
             <Router>
@@ -20,8 +20,8 @@ function App() {
                 <Route exact path="/">
                     <Redirect to="/text_finder"/>
                 </Route>
-                <Route path='/text_finder' render={() => <TextFinder sellers={sellers}/>}/>
-                <Route path='/image_finder' render={() => <ImageFinder sellers={sellers}/>}/>
+                <Route path='/text_finder' render={() => <TextFinder server={server}/>}/>
+                <Route path='/image_finder' render={() => <ImageFinder server={server}/>}/>
             </Router>
         </React.Fragment>
     );

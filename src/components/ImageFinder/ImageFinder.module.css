@@ -1,12 +1,14 @@
-.input_url {
-    margin-bottom: 2rem;
-    max-width: 25rem;
-    margin-left: auto;
-    margin-right: auto;
+@media (min-width: 500px) {
+    .input_url {
+        margin-bottom: 2rem;
+        max-width: 25rem;
+        margin-left: auto;
+        margin-right: auto;
+    }
 }
-
 .main_title {
     font-size: 1.5rem;
+    text-align: center;
 }
 .no_shadow_btn{
     background-color: #3b638e;
@@ -32,31 +34,72 @@
 .text_left {
     text-align: left;
 }
-.text_lg {
-    font-size: 1.125rem;
-    line-height: 1.75rem;
+@media (min-width: 500px) {
+    .text_lg {
+        font-size: 1.125rem;
+        line-height: 1.75rem;
+    }
+}
+@media (max-width: 500px) {
+    .text_lg {
+        font-size: .9rem;
+        line-height: 1.2rem;
+    }
+}
+@media (max-width: 500px) {
+    .input_url {
+        padding-left: 1rem;
+        padding-right: 1rem;
+        margin-bottom: 2rem;
+    }
 }
 .font_bold {
     font-weight: 700;
 }
-.image_finder_list {
-    margin-right: 5rem;
-    list-style-type: none;
+@media (min-width: 500px) {
+    .image_finder_list {
+        margin-top: 5rem;
+        margin-right: 2rem;
+        margin-left: 5rem;
+        list-style-type: none;
 
+    }
+}
+@media (max-width: 500px) {
+    .image_finder_list {
+        margin-right: 1rem;
+        list-style-type: none;
+
+    }
 }
 ol li{
     position: relative;
 }
-.list_numbers{
-    display: inline-block;
-    position: absolute;
-    top: 0;
-    left: -60px;
-    width: 50px;
-    color: #74a0d0;
-    text-align: center;
-    font-size: 40px;
-    font-weight: 700;
+@media (min-width: 500px) {
+    .list_numbers {
+        display: inline-block;
+        position: absolute;
+        top: 0;
+        left: -60px;
+        width: 50px;
+        color: #74a0d0;
+        text-align: center;
+        font-size: 40px;
+        font-weight: 700;
+    }
+}
+@media (max-width: 500px) {
+    .list_numbers {
+        display: inline-block;
+        position: absolute;
+        top: 0;
+        left: -45px;
+        width: 50px;
+        color: #74a0d0;
+        text-align: center;
+        font-size: 30px;
+        font-weight: 700;
+    }
 }
 .url_error{
     color: red;

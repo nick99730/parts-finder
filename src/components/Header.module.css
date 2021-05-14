@@ -1,15 +1,14 @@
-#logo {
-    color: #c6c9cc;
+#logo_title {
+    color: #7d7a7a;
     font-family: Helvetica, sans-serif;
     font-weight: bold;
-    display: inline;
-    float: left;
+    font-size: 1rem;
     margin-left: 2rem;
+    text-shadow: 1px 0 10px #353434;
 }
 
 a {
     color: #8e8e8e;
-    padding-bottom: .2rem;
     font-size: .9rem;
 }
 
@@ -17,27 +16,26 @@ a {
     font-family: 'Open Sans', sans-serif;
 }
 
-.list_menu {
-    margin-bottom: .1rem;
-}
-
-.list_menu li > a:hover {
+a:hover {
     text-decoration: none;
     color: #c6c9cc;
 }
 
-.list_menu li:hover {
+.list_menu:hover {
     cursor: pointer;
     color: #c6c9cc;
 }
 
-.list_menu li > a.active_link {
+.active_link {
     color: #ced1d6;
-    border-bottom: 2px solid #920d3ceb;
 }
 
 .menu_block {
     position: absolute;
     bottom: 0;
     left: 15%;
+}
+#logo{
+    padding-bottom: .5rem;
+    width: 1.7rem;
 }

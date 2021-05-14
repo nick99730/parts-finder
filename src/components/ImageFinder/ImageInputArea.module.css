@@ -35,7 +35,14 @@ p {
     justify-content: center;
     font-weight: bold;
 }
-.input_section{
-    width: 60%;
-    margin-left: 10rem;
+@media (min-width: 500px) {
+    .input_section {
+        width: 60%;
+        margin-left: 10rem;
+    }
+}
+@media (max-width: 500px) {
+    .input_section {
+        margin-left: .5rem;
+    }
 }
