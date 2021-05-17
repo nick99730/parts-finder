@@ -74,3 +74,7 @@ ol li{
 .input_code{
     max-width: 20rem;
 }
+.search_btn{
+    background-color: #22506b;
+    border-color: #22506b;
+}

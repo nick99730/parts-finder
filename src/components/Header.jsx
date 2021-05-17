@@ -11,8 +11,8 @@ function Header(props) {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="mr-auto">
-                        <NavLink className={`mx-4 ${styles.list_menu} font-weight-bold`} activeClassName={styles.active_link} to="/text_finder">ТЕКСТОВЫЙ ПОИСК</NavLink>
-                        <NavLink className={`mx-4 ${styles.list_menu} font-weight-bold`} activeClassName={styles.active_link} to="/image_finder">ПОИСК ПО ИЗОБРАЖЕНИЮ</NavLink>
+                        <NavLink className={`${styles.list_menu} font-weight-bold`} activeClassName={styles.active_link} to="/text_finder">ТЕКСТОВЫЙ ПОИСК</NavLink>
+                        <NavLink className={`${styles.list_menu} font-weight-bold`} activeClassName={styles.active_link} to="/image_finder">ПОИСК ПО ИЗОБРАЖЕНИЮ</NavLink>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>

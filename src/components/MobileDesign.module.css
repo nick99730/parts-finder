@@ -1,0 +1,11 @@
+@media (min-width: 500px) {
+    .mobile_panel {
+        display: none!important;
+    }
+}
+@media (max-width: 500px) {
+    .card_root > div {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}

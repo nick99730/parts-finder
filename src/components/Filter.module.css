@@ -3,3 +3,40 @@
     display: flex;
     justify-content: center;
 }
+@media (max-width: 500px) {
+    .list_item{
+        padding-right: 2px!important;
+        padding-left: 2px!important;
+    }
+    .list_item > label{
+        margin-right: 0;
+    }
+    .sellers_label{
+        font-size: .8rem;
+    }
+    .span_label span{
+        font-size: .8rem;
+        padding-right: 0!important;
+    }
+    .price_input div{
+        font-size: .8rem;
+        width: 3rem;
+
+    }
+    .price_input{
+        width: 3rem!important;
+        margin-left: .1rem!important;
+        margin-right: .1rem!important;
+    }
+    .price_filter{
+        min-width: 0!important;
+    }
+}
+.in_stock_filter > label {
+    padding-top: .5rem;
+    margin-right: 0;
+}
+.in_stock_check > span{
+    padding-left: 4px;
+    padding-right: 4px;
+}

@@ -1,12 +1,25 @@
 #logo_title {
-    color: #7d7a7a;
+    color: #fff;
+    letter-spacing: -1px;
     font-family: Helvetica, sans-serif;
     font-weight: bold;
     font-size: 1rem;
-    margin-left: 2rem;
     text-shadow: 1px 0 10px #353434;
 }
-
+@media (max-width: 500px) {
+    .list_menu{
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+@media (min-width: 500px) {
+    #logo_title {
+        margin-left: 2rem
+    }
+    .list_menu{
+        margin-left: 2rem;
+    }
+}
 a {
     color: #8e8e8e;
     font-size: .9rem;
@@ -37,5 +50,6 @@ a:hover {
 }
 #logo{
     padding-bottom: .5rem;
+    margin-left: .15rem;
     width: 1.7rem;
 }

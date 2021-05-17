@@ -1,18 +1,16 @@
 import React, {useEffect, useState} from 'react';
-import PropTypes from 'prop-types';
 import {makeStyles} from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import SellersTable from "./SellersTable";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import DataTable from "./tempTable";
-import Filter from "./Filter";
 import SellersWithFilter from "./SellersWithFilter";
 import CrossesTable from "./CrossesTable";
+import MobileDesign from "./MobileDesign";
+import styles from './ShowResults.module.css';
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -34,12 +32,6 @@ function TabPanel(props) {
     );
 }
 
-TabPanel.propTypes = {
-    children: PropTypes.node,
-    index: PropTypes.any.isRequired,
-    value: PropTypes.any.isRequired,
-};
-
 function a11yProps(index) {
     return {
         id: `vertical-tab-${index}`,
@@ -52,7 +44,6 @@ const useTabStyles = makeStyles((theme) => ({
         flexGrow: 1,
         backgroundColor: theme.palette.background.paper,
         display: 'flex',
-        height: 224,
     },
     tabs: {
         borderRight: `1px solid ${theme.palette.divider}`,
@@ -66,11 +57,6 @@ const useTabStyles = makeStyles((theme) => ({
 const useCardStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
-    },
-    bullet: {
-        display: 'inline-block',
-        margin: '0 2px',
-        transform: 'scale(0.8)',
     },
     title: {
         fontSize: 14,
@@ -94,36 +80,28 @@ const useCardStyles = makeStyles((theme) => ({
 }));
 
 function ShowResults({mainResults, mainSellers, tableSellersKeys, tableSellersHead,
-                         tableCrossesHead, tableCrossesInfo, crossesSellersInfo}) {
+                         tableCrossesHead, tableCrossesInfo}) {
     const tabClasses = useTabStyles();
     const cardClasses = useCardStyles();
     const [tabValue, setTabValue] = React.useState(0);
     const [showCrosses, setShowCrosses] = useState(false);
 
-
     const createSellersData = (name, site, in_stock, price) => {
         return {name, site, in_stock, price};
     };
 
-    const createCrossesData = (manufacturer, name, code) => {
-        return {manufacturer, name, code};
+    const createCrossesData = (manufacturer, name, code, sellers) => {
+        return {manufacturer, name, code, sellers};
     };
 
     const getCrossesRows = tableCrossesInfo.map((cross) => (
         () => cross.map((row) => (createCrossesData(row.manufacturer,
-            row.name, row.code)))
+            row.name, row.code, row.sellers)))
     ));
 
     const getSellersRows = mainSellers.map((product) => (
         () => product.map((row) => (createSellersData(row[tableSellersKeys[0]],
             row[tableSellersKeys[1]], row[tableSellersKeys[2]], row[tableSellersKeys[3]])))
-    ));
-
-    const getCrossesSellersRows = crossesSellersInfo.map((product) => (
-        () => product.map((row) => (row.map((seller) => (
-                createSellersData(seller[tableSellersKeys[0]],
-                    seller[tableSellersKeys[1]], seller[tableSellersKeys[2]], seller[tableSellersKeys[3]])))
-        ))
     ));
 
     const handleChangeTab = (event, newValue) => {
@@ -136,7 +114,11 @@ function ShowResults({mainResults, mainSellers, tableSellersKeys, tableSellersHe
 
     return (
         <React.Fragment>
-            <div className={tabClasses.root}>
+            <MobileDesign mainResults={mainResults} tableSellersKeys={tableSellersKeys}
+                          tableSellersHead={tableSellersHead} getSellersRows={getSellersRows}
+                          getCrossesRows={getCrossesRows}
+                          tableCrossesHead={tableCrossesHead}/>
+            <div className={`${tabClasses.root} ${styles.full_panel}`}>
                 <Tabs
                     orientation="vertical"
                     variant="scrollable"
@@ -176,17 +158,17 @@ function ShowResults({mainResults, mainSellers, tableSellersKeys, tableSellersHe
                                             </Grid>
                                         </Grid>
                                         <Grid xs={7} item>
-                                            <div className="d-flex justify-content-center mb-3 font-weight-bold">Предложения:</div>
-                                            {/*<Filter sellers={getSellersRows[index]().map((seller) => (seller.name))} value={sliderValue} setValue={setSliderValue}/>
-                                            <SellersTable tableHeads={tableSellersHead} bodyKeys={tableSellersKeys}
-                                                          getRowsFunc={getSellersRows[index]}/>*/}
-                                                          <SellersWithFilter sellers={getSellersRows[index]()} tableSellersHead={tableSellersHead} tableSellersKeys={tableSellersKeys}/>
+
+                                            <SellersWithFilter sellers={getSellersRows[index]()} tableSellersHead={tableSellersHead} tableSellersKeys={tableSellersKeys}/>
                                         </Grid>
                                     </Grid>
                                 </Grid>
                             </Paper>
                         </div>
-                        {showCrosses ? <CrossesTable tableSellersHead={tableSellersHead} crossesSellersInfo={getCrossesSellersRows[index]()} tableSellersKeys={tableSellersKeys} mainTableHeads={tableCrossesHead} crossesInfo={getCrossesRows[index]()}/> : null}
+                        {showCrosses ? <CrossesTable tableSellersHead={tableSellersHead}
+                                                     tableSellersKeys={tableSellersKeys}
+                                                     mainTableHeads={tableCrossesHead}
+                                                     crossesInfo={getCrossesRows[index]()}/> : null}
                     </TabPanel>
                 ))}
             </div>

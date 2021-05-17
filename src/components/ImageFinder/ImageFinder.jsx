@@ -17,10 +17,10 @@ function ImageFinder({server}) {
     const [tableSellersHead, setTableSellersHead] = useState([]);
     const [tableCrossesHead, setTableCrossesHead] = useState([]);
     const [tableCrossesInfo, setTableCrossesInfo] = useState([]);
-    const [crossesSellersInfo, setCrossesSellersInfo] = useState([]);
     const [resultsObtained, setResultsObtained] = useState(false);
     const [imageInputUrl, setImageInputUrl] = useState("");
     const status = useValidateImageURL(imageInputUrl);
+    const testAddr = 'https://ad08e02b-af38-40e6-954b-81a131c62fa3.mock.pstmn.io/image_finder';
     const fetchUrlAddress = server + '/detect';
     const fetchImageAddress = server + '/detect';
 
@@ -32,7 +32,7 @@ function ImageFinder({server}) {
     }));
     const classes = useStyles();
     function fetchUrl(url) {
-        fetch(fetchUrlAddress, {
+        fetch(testAddr, {
                 method: 'POST',
                 body: JSON.stringify({
                     url: url
@@ -49,8 +49,7 @@ function ImageFinder({server}) {
                 setTableSellersKeys(parsed_data.sellers_keys);
                 setTableSellersHead(parsed_data.sellers_head_names);
                 setTableCrossesHead(parsed_data.head_names);
-                setCrossesSellersInfo(parsed_data.result.map((part) => part.crosses.map((cross) => cross.sellers)));
-                setTableCrossesInfo(parsed_data.result.map((part) => part.crosses.map(({sellers, ...keepAttr}) => keepAttr)));
+                setTableCrossesInfo(parsed_data.result.map((part) => part.crosses));
                 setResultsObtained(true);
                 setDataLoading(false);
             })
@@ -67,8 +66,8 @@ function ImageFinder({server}) {
 
     function imageUrlClick() {
         setImageStatus(status);
-        setDataLoading(true);
         if (status === "valid") {
+            setDataLoading(true);
             fetchUrl(imageInputUrl);
         }
     }
@@ -90,7 +89,6 @@ function ImageFinder({server}) {
                                         setTableSellersHead={setTableSellersHead}
                                         setTableCrossesInfo={setTableCrossesInfo}
                                         setTableCrossesHead={setTableCrossesHead}
-                                        setCrossesSellersInfo={setCrossesSellersInfo}
                                         setMainSellers={setMainSellers}
                                         setDataLoading={setDataLoading}
                                         setResultsObtained={setResultsObtained}/>
@@ -120,7 +118,6 @@ function ImageFinder({server}) {
                 <ShowResults mainResults={mainResults} mainSellers={mainSellers}
                              tableCrossesHead={tableCrossesHead}
                              tableCrossesInfo={tableCrossesInfo}
-                             crossesSellersInfo={crossesSellersInfo}
                              tableSellersHead={tableSellersHead}
                              tableSellersKeys={tableSellersKeys}/>
             }

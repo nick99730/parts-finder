@@ -43,6 +43,6 @@ p {
 }
 @media (max-width: 500px) {
     .input_section {
-        margin-left: .5rem;
+        margin-left: .1rem;
     }
 }

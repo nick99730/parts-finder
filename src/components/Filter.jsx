@@ -1,13 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {Form} from "react-bootstrap";
 import styles from './Filter.module.css'
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
@@ -20,7 +17,6 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: 'auto',
         marginRight: 'auto',
         maxWidth: 580,
-        width: '100%',
         display: 'flex',
         flexDirection: 'row',
         backgroundColor: theme.palette.background.paper,
@@ -29,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
         position: 'relative',
     },
     list_item_nested: {
-        borderRight: '.1rem solid #949494',
+        borderRight: '1px solid rgba(224, 224, 224, 1)',
         height: '3rem',
     },
     stores: {
@@ -49,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     in_stock_filter: {
         height: '3rem',
         width: 'auto',
-        borderRight: '.1rem solid #949494'
+        borderRight: '1px solid rgba(224, 224, 224, 1)'
     },
     price_title: {
         marginRight: '.5rem',
@@ -59,6 +55,14 @@ const useStyles = makeStyles((theme) => ({
         marginRight: '.5rem',
         marginLeft: '.5rem'
     },
+    in_stock_label: {
+        fontSize: '.6rem!important',
+    },
+    mui_svg: {
+        '& .MuiSvgIcon-root': {
+            fontSize: '1.2rem',
+        }
+    }
 }));
 
 function Filter({sellers, value, setValue, inStock, setInStockValue, setSellers}) {
@@ -101,27 +105,25 @@ function Filter({sellers, value, setValue, inStock, setInStockValue, setSellers}
     }, []);
     return (
         <div className={styles.filter_block}>
-            {/*<div className="d-flex align-items-center font-weight-bold">
-                Фильтр:
-            </div>*/}
             <List className={classes.root}>
-                <ListItem className={classes.in_stock_filter}>
-                    <FormControlLabel className={classes.in_stock_label}
-                        control={<Checkbox color="primary" checked={inStock} onChange={handleInStockChange} name="inStock" />}
-                        label="В наличии"
+                <ListItem className={`${classes.in_stock_filter} ${styles.list_item} ${styles.in_stock_filter}`}>
+                    <FormControlLabel className={`${styles.span_label} ${styles.in_stock_check}`}
+                        control={<Checkbox className={classes.mui_svg} color="primary" checked={inStock} onChange={handleInStockChange} name="inStock" />}
+                        label=""
                     />
+                    <div className={styles.sellers_label}>В наличии</div>
                 </ListItem>
                 <div className={classes.div_nested}>
-                    <ListItem button className={classes.list_item_nested} onClick={handleSellersClick}>
+                    <ListItem button className={`${classes.list_item_nested} ${styles.sellers_label} ${styles.list_item}`} onClick={handleSellersClick}>
                        Продавцы
-                        {openSellers ? <ExpandLess/> : <ExpandMore/>}
+                        {openSellers ? <ExpandLess className={classes.mui_svg}/> : <ExpandMore className={classes.mui_svg}/>}
                     </ListItem>
                     <Collapse in={openSellers} timeout="auto" unmountOnExit>
                         <List className={classes.stores} component="div" disablePadding>
                             {Object.keys(sellers).map((seller) => (
-                                <ListItem className={classes.nested}>
-                                    <FormControlLabel
-                                        control={<Checkbox checked={sellers[seller]} onChange={handleSellersChange} name={seller} />}
+                                <ListItem className={styles.list_item}>
+                                    <FormControlLabel className={styles.span_label}
+                                        control={<Checkbox className={classes.mui_svg} checked={sellers[seller]} onChange={handleSellersChange} name={seller} />}
                                         label={seller}
                                     />
                                 </ListItem>
@@ -130,16 +132,16 @@ function Filter({sellers, value, setValue, inStock, setInStockValue, setSellers}
                     </Collapse>
                 </div>
                 <div className={classes.div_nested}>
-                    <ListItem className={classes.price_filter} button onClick={handlePricesClick}>
-                        <ListItemText className={classes.price_title} primary="Цена:"/>
+                    <ListItem className={`${classes.price_filter} ${styles.list_item} ${styles.price_filter}`} button onClick={handlePricesClick}>
+                        <div className={`${classes.price_title} ${styles.sellers_label}`}>Цена:</div>
                         <TextField
-                            className={classes.input}
+                            className={`${classes.input} ${styles.price_input}`}
                             value={sliderValue[0]}
                             onChange={handleMinInputChange}
                             label="От"
                         />
                         <TextField
-                            className={classes.input}
+                            className={`${classes.input} ${styles.price_input}`}
                             value={sliderValue[1]}
                             onChange={handleMaxInputChange}
                             label="До"

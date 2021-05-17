@@ -48,7 +48,7 @@ function TextFinder({server}) {
                 setTableSellersHead(parsed_data.sellers_head_names);
                 setTableCrossesHead(parsed_data.head_names);
                 setCrossesSellersInfo(parsed_data.result.map((part) => part.crosses.map((cross) => cross.sellers)));
-                setTableCrossesInfo(parsed_data.result.map((part) => part.crosses.map(({sellers, ...keepAttr}) => keepAttr)));
+                setTableCrossesInfo(parsed_data.result.map((part) => part.crosses));
                 setDataLoading(false);
                 setResultsObtained(true);
             })
@@ -79,7 +79,7 @@ function TextFinder({server}) {
                                     onChange={(e) => handleChange(e)}
                                 />
                                 <InputGroup.Append>
-                                    <Button onClick={sendNumber} className={styles.no_shadow_btn} variant="info">Поиск</Button>
+                                    <Button onClick={sendNumber} className={`${styles.no_shadow_btn} ${styles.search_btn}`} variant="info">Поиск</Button>
                                 </InputGroup.Append>
                             </InputGroup>
                         </div>

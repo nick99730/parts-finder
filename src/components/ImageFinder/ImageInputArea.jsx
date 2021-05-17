@@ -1,7 +1,6 @@
 import React, {useCallback} from 'react';
 import styles from './ImageInputArea.module.css'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-//import {faImage} from '@fortawesome/free-solid-svg-icons'
 import {faImage} from '@fortawesome/free-regular-svg-icons'
 import {useDropzone} from 'react-dropzone';
 
@@ -10,9 +9,9 @@ const image = <div className={styles.image_icon}>
     <FontAwesomeIcon icon={faImage} size="7x"/>
 </div>;
 
-function InputImageArea({   fetchImageAddress, setMainResults, setResultsObtained, setDataLoading,
+function InputImageArea({fetchImageAddress, setMainResults, setResultsObtained, setDataLoading,
                             setMainSellers, setTableSellersKeys, setTableSellersHead,
-                            setTableCrossesHead, setTableCrossesInfo, setCrossesSellersInfo}) {
+                            setTableCrossesHead, setTableCrossesInfo}) {
     function fetchImage(file) {
         let formData = new FormData();
         formData.append('image', file);
@@ -30,8 +29,7 @@ function InputImageArea({   fetchImageAddress, setMainResults, setResultsObtaine
             setTableSellersKeys(parsed_data.sellers_keys);
             setTableSellersHead(parsed_data.sellers_head_names);
             setTableCrossesHead(parsed_data.head_names);
-            setCrossesSellersInfo(parsed_data.result.map((part) => part.crosses.map((cross) => cross.sellers)));
-            setTableCrossesInfo(parsed_data.result.map((part) => part.crosses.map(({sellers, ...keepAttr}) => keepAttr)));
+            setTableCrossesInfo(parsed_data.result.map((part) => part.crosses));
             setDataLoading(false);
             setResultsObtained(true);
         })
