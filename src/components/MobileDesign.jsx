@@ -1,6 +1,4 @@
-import IconButton from "@material-ui/core/IconButton";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
+import AppBar from '@material-ui/core/AppBar';
 import React, {useState} from "react";
 import Typography from '@material-ui/core/Typography';
 import styles from './MobileDesign.module.css'
@@ -12,14 +10,9 @@ import Paper from "@material-ui/core/Paper";
 import SellersWithFilter from "./SellersWithFilter";
 import Button from "@material-ui/core/Button";
 import CrossesTable from "./CrossesTable";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faLongArrowAltLeft} from "@fortawesome/free-solid-svg-icons";
-
-const arrow = <FontAwesomeIcon icon={faLongArrowAltLeft} />;
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
-
     return (
         <div
             role="tabpanel"
@@ -39,7 +32,6 @@ function TabPanel(props) {
 
 
 function MobileDesign({mainResults, tableSellersHead, tableSellersKeys, getSellersRows, tableCrossesHead, getCrossesRows}) {
-    const [mobilePanelOpen, setMobilePanelOpen] = useState(false);
     const [showCrosses, setShowCrosses] = useState(false);
     function a11yProps(index) {
         return {
@@ -81,17 +73,13 @@ function MobileDesign({mainResults, tableSellersHead, tableSellersKeys, getSelle
             },
         },
         paper: {
+            boxShadow: '0px 5px 7px 0px rgba(0, 0, 0, .2)',
+            borderTopRightRadius: 0,
+            borderTopLeftRadius: 0,
             padding: theme.spacing(2),
             margin: 'auto',
         },
     }));
-
-    const toggleDrawer = (open) => (event) => {
-        if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-            return;
-        }
-        setMobilePanelOpen(open);
-    };
     const tabClasses = useTabStyles();
     const cardClasses = useCardStyles();
     const [tabValue, setTabValue] = React.useState(0);
@@ -104,40 +92,24 @@ function MobileDesign({mainResults, tableSellersHead, tableSellersKeys, getSelle
 
     return(
         <div className={styles.mobile_panel}>
-            <div className="d-flex align-items-center justify-content-center mb-1 font-weight-bold">Посмотреть результаты
-                {arrow}
-                <IconButton
-                    aria-label="more"
-                    aria-controls="long-menu"
-                    aria-haspopup="true"
-                    onClick={toggleDrawer(true)}
-                >
-                    <MoreVertIcon />
-                </IconButton>
-            </div>
-            <SwipeableDrawer
-                anchor="left"
-                open={mobilePanelOpen}
-                onClose={toggleDrawer(false)}
-                onOpen={toggleDrawer(true)}
-            >
-                <div role="presentation" onClick={toggleDrawer(false)} onKeyDown={toggleDrawer(false)}>
                     <Typography variant="div" className="d-flex justify-content-center mt-3 mb-4 font-weight-bold" >
                         Результаты поиска
                     </Typography>
-                    <Tabs
-                        orientation="vertical"
-                        variant="scrollable"
-                        value={tabValue}
-                        onChange={handleChangeTab}
-                        aria-label="Vertical tabs example"
-                    >
+                    <AppBar className={styles.mobile_tabs} position="static" color="default">
+                        <Tabs
+                            value={tabValue}
+                            onChange={handleChangeTab}
+                            variant="scrollable"
+                            scrollButtons="on"
+                            indicatorColor="primary"
+                            textColor="primary"
+                            aria-label="scrollable force tabs example"
+                        >
                         {mainResults.map((main_result, index) => (
                             <Tab label={main_result.manufacturer + " " + main_result.code} {...a11yProps(index)} />
                         ))}
                     </Tabs>
-                </div>
-            </SwipeableDrawer>
+                    </AppBar>
             {mainResults.map((main_result, index) => (
                 <TabPanel className={`${tabClasses.tab_panel} ${styles.card_root} `} value={tabValue} index={index}>
                     <div className={`${cardClasses.root}`}>

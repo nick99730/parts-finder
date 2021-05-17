@@ -30,8 +30,10 @@ function TextFinder({server}) {
         setPartNumber(event.target.value);
     }
     function sendNumber() {
-        setDataLoading(true);
-        fetchPartNumber();
+        if(partNumber.length > 1) {
+            setDataLoading(true);
+            fetchPartNumber();
+        }
     }
     function fetchPartNumber() {
         fetch(server + '/part?code=' + partNumber, {

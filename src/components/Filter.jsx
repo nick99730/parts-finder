@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
         position: 'relative',
     },
     list_item_nested: {
-        borderRight: '1px solid rgba(224, 224, 224, 1)',
+        borderRight: '1px solid rgba(224, 224, 224, .5)',
         height: '3rem',
     },
     stores: {
@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     in_stock_filter: {
         height: '3rem',
         width: 'auto',
-        borderRight: '1px solid rgba(224, 224, 224, 1)'
+        borderRight: '1px solid rgba(224, 224, 224, .5)'
     },
     price_title: {
         marginRight: '.5rem',

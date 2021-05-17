@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
@@ -20,7 +20,7 @@ function ImageFinder({server}) {
     const [resultsObtained, setResultsObtained] = useState(false);
     const [imageInputUrl, setImageInputUrl] = useState("");
     const status = useValidateImageURL(imageInputUrl);
-    const testAddr = 'https://ad08e02b-af38-40e6-954b-81a131c62fa3.mock.pstmn.io/image_finder';
+    //const testAddr = 'https://ad08e02b-af38-40e6-954b-81a131c62fa3.mock.pstmn.io/image_finder';
     const fetchUrlAddress = server + '/detect';
     const fetchImageAddress = server + '/detect';
 
@@ -32,7 +32,7 @@ function ImageFinder({server}) {
     }));
     const classes = useStyles();
     function fetchUrl(url) {
-        fetch(testAddr, {
+        fetch(fetchUrlAddress, {
                 method: 'POST',
                 body: JSON.stringify({
                     url: url
