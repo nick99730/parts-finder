@@ -109,7 +109,7 @@ function CrossesTable({mainTableHeads, crossesInfo, tableSellersKeys, tableSelle
         }
         else {
             setOrder('');
-            setRows(crossesInfo);
+            setRows(JSON.parse(JSON.stringify(crossesInfo)));
         }
     };
     useEffect(() => {

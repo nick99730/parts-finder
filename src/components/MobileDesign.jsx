@@ -79,6 +79,9 @@ function MobileDesign({mainResults, tableSellersHead, tableSellersKeys, getSelle
             padding: theme.spacing(2),
             margin: 'auto',
         },
+        manufacturer: {
+            marginLeft: 3,
+        },
     }));
     const tabClasses = useTabStyles();
     const cardClasses = useCardStyles();
@@ -93,8 +96,9 @@ function MobileDesign({mainResults, tableSellersHead, tableSellersKeys, getSelle
     return(
         <div className={styles.mobile_panel}>
                     <Typography variant="div" className="d-flex justify-content-center mt-3 mb-4 font-weight-bold" >
-                        Результаты поиска
+                        Результаты поиска:
                     </Typography>
+            {mainResults.length > 1 ?
                     <AppBar className={styles.mobile_tabs} position="static" color="default">
                         <Tabs
                             value={tabValue}
@@ -109,24 +113,25 @@ function MobileDesign({mainResults, tableSellersHead, tableSellersKeys, getSelle
                             <Tab label={main_result.manufacturer + " " + main_result.code} {...a11yProps(index)} />
                         ))}
                     </Tabs>
-                    </AppBar>
+                    </AppBar> : null}
             {mainResults.map((main_result, index) => (
                 <TabPanel className={`${tabClasses.tab_panel} ${styles.card_root} `} value={tabValue} index={index}>
                     <div className={`${cardClasses.root}`}>
                         <Paper className={cardClasses.paper}>
-                            <div className={`${cardClasses.title}`}>
-                                Производитель:
+                            <div className="d-flex justify-content-center">
+                                <div className={`${cardClasses.title}`}>
+                                    Производитель:
+                                </div>
+                                <div className={`${cardClasses.title} ${cardClasses.manufacturer}`}>
+                                    {main_result.manufacturer}
+                                </div>
                             </div>
-                            <div className={cardClasses.title}>
-                                {main_result.manufacturer}
-                            </div>
-                            <Typography variant="h5" component="h2">
+                            <Typography className="d-flex justify-content-center my-2" variant="h5" component="h2">
                                 Название: {main_result.name}
                             </Typography>
-                            <Typography className={cardClasses.pos} color="textSecondary">
+                            <Typography className={`${cardClasses.pos} d-flex justify-content-center`} color="textSecondary">
                                 Номер: {main_result.code}
                             </Typography>
-
                             <SellersWithFilter sellers={getSellersRows[index]()} tableSellersHead={tableSellersHead}
                                                tableSellersKeys={tableSellersKeys}/>
                             <Button onClick={handleShowCrosses} className={cardClasses.show_btn} size="small">Показать аналоги</Button>

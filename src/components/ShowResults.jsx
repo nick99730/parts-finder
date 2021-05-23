@@ -158,7 +158,6 @@ function ShowResults({mainResults, mainSellers, tableSellersKeys, tableSellersHe
                                             </Grid>
                                         </Grid>
                                         <Grid xs={7} item>
-
                                             <SellersWithFilter sellers={getSellersRows[index]()} tableSellersHead={tableSellersHead} tableSellersKeys={tableSellersKeys}/>
                                         </Grid>
                                     </Grid>

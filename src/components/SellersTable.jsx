@@ -68,7 +68,7 @@ function SellersTable({tableHeads, bodyKeys, sellersInfo, inStock, filteredSelle
         }
         else {
             setOrder('');
-            setRows(sellersInfo);
+            setRows(JSON.parse(JSON.stringify(sellersInfo)));
         }
     };
     useEffect(() => {
