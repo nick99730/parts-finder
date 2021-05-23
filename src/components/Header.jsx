@@ -7,7 +7,7 @@ function Header() {
     const [expanded, setExpanded] = useState(false);
     return (
         <React.Fragment>
-            <Navbar expand="lg"  expanded={expanded} bg="dark" variant="dark">
+            <Navbar expand="lg" collapseOnSelect  expanded={window.screen.width > 500 ? true : expanded} bg="dark" variant="dark">
                 <Navbar.Brand className="mr-5" id={styles.logo_title}>PartsFinder<img id={styles.logo} alt="logo" src={process.env.PUBLIC_URL + '/logo.png'} /> </Navbar.Brand>
                 <Navbar.Toggle className={styles.nav_toggle_btn} onClick={() => setExpanded(!expanded)} aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
