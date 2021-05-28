@@ -92,3 +92,8 @@ ol li{
 .url_error{
     color: red;
 }
+.error_message{
+    text-align: center;
+    color: red;
+    font-size: 1.3rem;
+}

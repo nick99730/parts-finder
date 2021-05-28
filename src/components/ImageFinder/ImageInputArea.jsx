@@ -11,7 +11,7 @@ const image = <div className={styles.image_icon}>
 
 function InputImageArea({fetchImageAddress, setMainResults, setResultsObtained, setDataLoading,
                             setMainSellers, setTableSellersKeys, setTableSellersHead,
-                            setTableCrossesHead, setTableCrossesInfo}) {
+                            setTableCrossesHead, setTableCrossesInfo, setResponseStatus, setErrorMessage}) {
     function fetchImage(file) {
         let formData = new FormData();
         formData.append('image', file);
@@ -24,14 +24,22 @@ function InputImageArea({fetchImageAddress, setMainResults, setResultsObtained, 
             }
         )
             .then(response => response.json()).then(parsed_data => {
-            setMainResults(parsed_data.result.map(({sellers, crosses, ...keepAttr}) => keepAttr));
-            setMainSellers(parsed_data.result.map((part) => part.sellers));
-            setTableSellersKeys(parsed_data.sellers_keys);
-            setTableSellersHead(parsed_data.sellers_head_names);
-            setTableCrossesHead(parsed_data.head_names);
-            setTableCrossesInfo(parsed_data.result.map((part) => part.crosses));
-            setDataLoading(false);
-            setResultsObtained(true);
+                if (parsed_data.status === 'ok') {
+                    setMainResults(parsed_data.result.map(({sellers, crosses, ...keepAttr}) => keepAttr));
+                    setMainSellers(parsed_data.result.map((part) => part.sellers));
+                    setTableSellersKeys(parsed_data.sellers_keys);
+                    setTableSellersHead(parsed_data.sellers_head_names);
+                    setTableCrossesHead(parsed_data.head_names);
+                    setTableCrossesInfo(parsed_data.result.map((part) => part.crosses));
+                    setDataLoading(false);
+                    setResponseStatus('ok');
+                    setResultsObtained(true);
+                }
+                else if (parsed_data.status === 'error'){
+                    setErrorMessage(parsed_data.error);
+                    setResponseStatus('error');
+                    setDataLoading(false);
+                }
         })
             .catch((error) => {
                     console.log(error)

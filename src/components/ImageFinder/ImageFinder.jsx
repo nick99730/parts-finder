@@ -10,6 +10,8 @@ import ShowResults from "../ShowResults";
 
 function ImageFinder({server}) {
     const [mainResults, setMainResults] = useState([]);
+    const [responseStatus, setResponseStatus] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
     const [dataLoading, setDataLoading] = useState(false);
     const [imageStatus, setImageStatus] = useState('vallid');
     const [mainSellers, setMainSellers] = useState([]);
@@ -20,7 +22,6 @@ function ImageFinder({server}) {
     const [resultsObtained, setResultsObtained] = useState(false);
     const [imageInputUrl, setImageInputUrl] = useState("");
     const status = useValidateImageURL(imageInputUrl);
-    //const testAddr = 'https://ad08e02b-af38-40e6-954b-81a131c62fa3.mock.pstmn.io/image_finder';
     const fetchUrlAddress = server + '/detect';
     const fetchImageAddress = server + '/detect';
 
@@ -44,14 +45,22 @@ function ImageFinder({server}) {
             }
         ).then(response => response.json())
             .then(parsed_data => {
-                setMainResults(parsed_data.result.map(({sellers, crosses, ...keepAttr}) => keepAttr));
-                setMainSellers(parsed_data.result.map((part) => part.sellers));
-                setTableSellersKeys(parsed_data.sellers_keys);
-                setTableSellersHead(parsed_data.sellers_head_names);
-                setTableCrossesHead(parsed_data.head_names);
-                setTableCrossesInfo(parsed_data.result.map((part) => part.crosses));
-                setResultsObtained(true);
-                setDataLoading(false);
+                if(parsed_data.status === 'ok') {
+                    setMainResults(parsed_data.result.map(({sellers, crosses, ...keepAttr}) => keepAttr));
+                    setMainSellers(parsed_data.result.map((part) => part.sellers));
+                    setTableSellersKeys(parsed_data.sellers_keys);
+                    setTableSellersHead(parsed_data.sellers_head_names);
+                    setTableCrossesHead(parsed_data.head_names);
+                    setTableCrossesInfo(parsed_data.result.map((part) => part.crosses));
+                    setResultsObtained(true);
+                    setResponseStatus('ok');
+                    setDataLoading(false);
+                }
+                else if (parsed_data.status === 'error'){
+                    setErrorMessage(parsed_data.error);
+                    setResponseStatus('error');
+                    setDataLoading(false);
+                }
             })
             .catch((error) => {
                     console.log(error);
@@ -62,6 +71,11 @@ function ImageFinder({server}) {
     function imageUrlInputChange(event) {
         setImageInputUrl(event.target.value);
         setImageStatus('valid');
+    }
+
+    function onReturnClick() {
+        setErrorMessage('');
+        setResponseStatus('');
     }
 
     function imageUrlClick() {
@@ -83,37 +97,49 @@ function ImageFinder({server}) {
             {!resultsObtained ?
                 <React.Fragment>
                     <div className="my-4 d-flex justify-content-center font-weight-bold">Поиск по изображению</div>
-                    <div className="d-flex ">
-                        <InputImageArea fetchImageAddress={fetchImageAddress} setMainResults={setMainResults}
-                                        setTableSellersKeys={setTableSellersKeys}
-                                        setTableSellersHead={setTableSellersHead}
-                                        setTableCrossesInfo={setTableCrossesInfo}
-                                        setTableCrossesHead={setTableCrossesHead}
-                                        setMainSellers={setMainSellers}
-                                        setDataLoading={setDataLoading}
-                                        setResultsObtained={setResultsObtained}/>
-                        <ol className={`${styles.image_finder_list} ${styles.text_gray_700} ${styles.text_lg} ${styles.text_left} ${styles.uppercase} ${styles.font_bold}`}>
-                            <li className="mb-3"><span className={styles.list_numbers}>1</span>Для поиска загрузите изображение с упаковкой запчасти</li>
-                            <li className="mb-3"><span className={styles.list_numbers}>2</span>В настройках существует возможность фильтрации предложений по наличию, а также по ценам и магазинам</li>
-                            <li className="mb-3"><span className={styles.list_numbers}>3</span>Заказ оформляется на сайте продавца. Информацию о наличии необходимо уточнять по телефону
-                                либо на сайте продавца
-                            </li>
-                        </ol>
-                    </div>
-                    <div className="my-4 d-flex justify-content-center font-weight-bold">или загрузите по ссылке</div>
-                    <InputGroup className={styles.input_url}>
-                        <FormControl
-                            className={styles.no_shadow_input}
-                            placeholder="www.example.com"
-                            aria-label="www.example.com"
-                            aria-describedby="basic-addon2"
-                            onChange={(e) => imageUrlInputChange(e)}
-                        />
-                        <InputGroup.Append>
-                            <Button className={styles.no_shadow_btn} onClick={imageUrlClick} variant="primary">Поиск</Button>
-                        </InputGroup.Append>
-                    </InputGroup>
-                    {imageStatus === "invalid" ? <div className={`d-flex justify-content-center ${styles.url_error}`}>Неверная ссылка!</div> : null}
+                    {responseStatus === 'error' ?
+                        <div className={`${styles.error_message}`}>
+                            {errorMessage}
+                            <div className="d-flex justify-content-center mt-4">
+                                <Button onClick={onReturnClick} variant="outline-secondary">Назад к поиску</Button>
+                            </div>
+                        </div> :
+                        <React.Fragment>
+                            <div className="d-flex">
+                                <InputImageArea fetchImageAddress={fetchImageAddress}
+                                                setMainResults={setMainResults}
+                                                setErrorMessage={setErrorMessage}
+                                                setResponseStatus={setResponseStatus}
+                                                setTableSellersKeys={setTableSellersKeys}
+                                                setTableSellersHead={setTableSellersHead}
+                                                setTableCrossesInfo={setTableCrossesInfo}
+                                                setTableCrossesHead={setTableCrossesHead}
+                                                setMainSellers={setMainSellers}
+                                                setDataLoading={setDataLoading}
+                                                setResultsObtained={setResultsObtained}/>
+                                <ol className={`${styles.image_finder_list} ${styles.text_gray_700} ${styles.text_lg} ${styles.text_left} ${styles.uppercase} ${styles.font_bold}`}>
+                                    <li className="mb-3"><span className={styles.list_numbers}>1</span>Для поиска загрузите изображение с упаковкой запчасти</li>
+                                    <li className="mb-3"><span className={styles.list_numbers}>2</span>В настройках существует возможность фильтрации предложений по наличию, а также по ценам и магазинам</li>
+                                    <li className="mb-3"><span className={styles.list_numbers}>3</span>Заказ оформляется на сайте продавца. Информацию о наличии необходимо уточнять по телефону
+                                        либо на сайте продавца
+                                    </li>
+                                </ol>
+                            </div>
+                            <div className="my-4 d-flex justify-content-center font-weight-bold">или загрузите по ссылке</div>
+                            <InputGroup className={styles.input_url}>
+                                <FormControl
+                                    className={styles.no_shadow_input}
+                                    placeholder="www.example.com"
+                                    aria-label="www.example.com"
+                                    aria-describedby="basic-addon2"
+                                    onChange={(e) => imageUrlInputChange(e)}
+                                />
+                                <InputGroup.Append>
+                                    <Button className={styles.no_shadow_btn} onClick={imageUrlClick} variant="primary">Поиск</Button>
+                                </InputGroup.Append>
+                            </InputGroup>
+                            {imageStatus === "invalid" ? <div className={`d-flex justify-content-center ${styles.url_error}`}>Неверная ссылка!</div> : null}
+                        </React.Fragment>}
                 </React.Fragment> :
                 <ShowResults mainResults={mainResults} mainSellers={mainSellers}
                              tableCrossesHead={tableCrossesHead}
