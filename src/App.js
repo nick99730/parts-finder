@@ -16,7 +16,7 @@ const theme = createMuiTheme({
 }, ruRU);
 
 function App() {
-    const server = "https://0a35761399c5.ngrok.io";
+    const server = "https://2ca6ff49ff8a.ngrok.io";
     return (
         <React.Fragment>
             <ThemeProvider theme={theme}>

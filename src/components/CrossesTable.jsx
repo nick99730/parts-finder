@@ -142,7 +142,7 @@ function CrossesTable({mainTableHeads, crossesInfo, tableSellersKeys, tableSelle
                         </TableHead>
                         <TableBody>
                             {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
-                                <Row key={row.name} crossesSellersInfo={row.sellers}
+                                <Row key={row.number} crossesSellersInfo={row.sellers}
                                      row={row} tableSellersKeys={tableSellersKeys} tableSellersHead={tableSellersHead}/>
                             ))}
                         </TableBody>

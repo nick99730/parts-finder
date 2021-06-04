@@ -83,7 +83,7 @@ function SellersTable({tableHeads, bodyKeys, sellersInfo, inStock, filteredSelle
         <Table className={`${classes.table} tbl mb-5`} aria-label="simple table" size="small">
             <TableHead>
                 <TableRow>
-                    {tableHeads.map((headRow) => ( headRow === 'Цена' ?
+                    {tableHeads.map((headRow) => ( headRow === 'Цена, руб.' ?
                             <Tooltip TransitionComponent={Zoom} title="Кликните для сортировки" arrow>
                                 <TableCell align="center" className={`${classes.order_cell} ${styles.table_head}`} onClick={handleSort}>{headRow}
                                     {order === 'asc' ? arrowUp : order === 'desc' ? arrowDown : whiteArrow}
